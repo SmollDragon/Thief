@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
 
     [SerializeField] private Animator _animator;
     [SerializeField] private Alarm _alarm;
+
     private float _alarmOn = 1f;
     private float _alarmOff = 0f;
 

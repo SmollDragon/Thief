@@ -9,28 +9,30 @@ public class DoorOpenTriger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<DoorOpener>())
+        if (other.TryGetComponent(out DoorOpener doorOpener))
             _hasOpener = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<DoorOpener>())
+        if (other.TryGetComponent(out DoorOpener doorOpener))
             _hasOpener = false;
     }
 
     private void Update()
     {
         if (_isOpened == true && _hasOpener && Input.GetKeyDown(KeyCode.E))
-        {          
-            _door.Close();
+        {
             _isOpened = false;
+            _door.Close();
+            
         }
 
-        if (_isOpened == false && _hasOpener && Input.GetKeyDown(KeyCode.E))
-        {         
-            _door.Open();
+        if (_isOpened == false && _hasOpener && Input.GetKeyDown(KeyCode.V))
+        {
             _isOpened = true;
+            _door.Open();
+            
         }
     }
 }

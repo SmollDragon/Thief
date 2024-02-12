@@ -1,29 +1,33 @@
+using System.Collections;
 using UnityEngine;
 
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
 
-    private float _volumeChangeSpeed = 0.3f;
+    private float _volumeChangeSpeed = 0.003f;
     private float _targetVolume;
 
     private void Update()
     {
-        float current = _audioSource.volume;
+        StartCoroutine(ChangeVolume());
+    }
 
-        _audioSource.volume = Mathf.MoveTowards(current, _targetVolume, _volumeChangeSpeed * Time.deltaTime);    
+    private IEnumerator ChangeVolume()
+    {
+        while (_audioSource.volume != _targetVolume)
+        {
+            float current = _audioSource.volume;
+            float nextVolume = Mathf.MoveTowards(current, _targetVolume, _volumeChangeSpeed * Time.deltaTime);
+
+            _audioSource.volume = nextVolume;
+            yield return null;
+        }
     }
 
     public void ActivateTrigger(float volume)
     {
-        if (volume > _audioSource.volume)
-        {
-            _targetVolume = volume;
-        }
-        else if (volume < _audioSource.volume)
-        {
-            _targetVolume = volume;
-        }
+        _targetVolume = volume;
     }
 }
 
